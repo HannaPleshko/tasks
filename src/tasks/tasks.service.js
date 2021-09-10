@@ -1,11 +1,11 @@
 const tasks = [
     {
-        id: 0,
+        id: '0',
         title: 'title_0',
         description: 'description_0',
     },
     {
-        id: 1,
+        id: '1',
         title: 'title_1',
         description: 'description_1',
     },
