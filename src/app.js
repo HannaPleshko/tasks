@@ -1,20 +1,17 @@
-const dotenv = require('dotenv')
-      express = require("express")
-      fs = require("fs")
-      bodyParser = require('body-parser')
-      path = require( 'path' );
+const express = require('express')
+const bodyParser = require('body-parser')
+const tasks = require('./tasks/tasks.controller');
 
-dotenv.config({path: __dirname + '/../.env'});
 const app = express()
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (request, response) => {
-    response.send(`Success ${response.statusCode}`);
+app.use('/tasks', tasks)
+
+app.get('/', (req, res) => {
+    res.send(`Success ${res.statusCode} ${req.originalUrl}`)
 })
 
 
-const port = process.env.PORT
-app.listen(port, () => console.log(`Server is running on port ${port}...`))
-
+module.exports = app
