@@ -34,4 +34,16 @@ deleteTask = (id) => {
     })
 }
 
-module.exports = {getAllTasks, getTask, updateTask, deleteTask}
+createTask = (title, description) => {
+    const id = genID(tasks.length-1)
+    tasks.push({
+        id: id,
+        title: title,
+        description: description,
+    })
+    return getTask(id)
+}
+
+genID = (serverNum) => serverNum + "" + Math.floor(Math.random() * 100000)
+
+module.exports = {getAllTasks, getTask, updateTask, deleteTask, createTask}
