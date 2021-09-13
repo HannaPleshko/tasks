@@ -1,10 +1,11 @@
+const {handleError, ErrorHandler } = require('../helpers/error') 
 const express = require('express')
-const service = require('./tasks.service')
+const {getAllTasks, getTask, updateTask, deleteTask} = require('./tasks.service')
 
 const router = express.Router()
 
 router.get('/', (req, res) => {
-    res.status(200).json(service.getAllTasks())
+    res.status(200).json(getAllTasks())
 })
 router.post('/', (req, res) => {
     console.log(req.body)
@@ -12,22 +13,25 @@ router.post('/', (req, res) => {
 })
 router.get('/:id', (req, res) => {
     const {id} = req.params
-    const requiredData = service.getTask(id)
+    const requiredData = getTask(id)
     if (requiredData) res.status(200).json(requiredData)
     else res.status(404).send('The task with the required identifier is missing')
 })
 router.put('/:id', (req, res) => {
     const {id} = req.params
     const {title, description} = req.body
-    const requiredData = service.updateTask(id, title, description)
+    const requiredData = updateTask(id, title, description)
 
     if (requiredData) res.status(200).json(requiredData)
     else res.status(404).send('The task with the required identifier is missing')
 })
 router.delete('/:id', (req, res) => {
-    const requiredData = service.deleteTask(req.params.id)
+    const requiredData = deleteTask(req.params.id)
     if (requiredData) res.status(200).json(requiredData)
     else res.status(404).send('The task with the required identifier is missing')
+})
+router.get('/error', (req, res) => {
+    throw new ErrorHandler(500, 'Internal server error');
 })
 
 module.exports = router
