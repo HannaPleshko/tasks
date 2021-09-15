@@ -1,14 +1,10 @@
 const {ErrorHandler} = require('../helpers/error') 
-const {ValidationQuery} = require('../helpers/query')
 const {pool, client} = require('../database')
-
-const validationQuery = new ValidationQuery()
 
 class Tasks {
     
     createNewTask = async (title, description) => {
         const client = await pool.connect()
-        validationQuery.validTitle(title, description)
         try {
             await client.query('BEGIN')
             const sql = 'INSERT INTO tasks (title, description) VALUES($1, $2) RETURNING tasks.*'
@@ -56,7 +52,6 @@ class Tasks {
 
     updateTaskById = async (id, title, description) => {
         const client = await pool.connect()
-        validationQuery.validTitle(title, description)
         try {
             await client.query('BEGIN')
             const sql = 'UPDATE tasks SET title = $1, description = $2 WHERE id = $3 RETURNING tasks.*'
