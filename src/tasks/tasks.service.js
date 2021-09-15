@@ -1,15 +1,56 @@
 const {createNewTask, getAllTasksDB, getTaskById, updateTaskById, deleteTaskById} = require('./repository')
+const {ErrorHandler} = require('../helpers/error')
 
+getAllTasks = async () => {
+    try {
+        const arrOfTasks = await getAllTasksDB()
+        if (!arrOfTasks) throw new ErrorHandler(500, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
 
-getAllTasks = async () => await getAllTasksDB().catch(err => console.log(`Exception in getAllTasks: ${err.message}`))
+getTask = async (id) => {
+    try {
+        const arrOfTasks = await getTaskById(id)
+        console.log(!arrOfTasks);
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
 
-getTask = async (id) => await getTaskById(id).catch(err => console.log(`Exception in getTask: ${err.message}`))
+updateTask = async (id, title, description) => {
+    try {
+        const arrOfTasks = await updateTaskById(id, title, description)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
 
-updateTask = async (id, title, description) => await updateTaskById(id, title, description).catch(err => console.log(`Exception in updateTask: ${err.message}`))
+deleteTask = async (id) => {
+    try {
+        const arrOfTasks = await deleteTaskById(id)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
 
-deleteTask = async (id) => await deleteTaskById(id).catch(err => console.log(`Exception in deleteTask: ${err.message}`))
-
-createTask = async (title, description) => await createNewTask(title, description).catch(err => console.log(`Exception in createTask: ${err.message}`))
+createTask = async (title, description) =>{
+    try {
+        const arrOfTasks = await createNewTask(title, description)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
 
 
 module.exports = {getAllTasks, getTask, updateTask, deleteTask, createTask}

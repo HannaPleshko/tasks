@@ -6,41 +6,54 @@ const {getAllTasks, getTask, updateTask, deleteTask, createTask} = require('./ta
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-    const requiredData = await getAllTasks()
-
-    if (requiredData) res.status(200).json(requiredData)
-    else res.status(404).send('Server error! The database is empty!')
+    try {
+        const requiredData = await getAllTasks()
+        res.status(200).json(requiredData)
+    } catch (err) {
+        if (err instanceof ErrorHandler) res.status(404).send('Page not found!')
+        else res.status(500).send('Server error!')
+    }
 })
 router.post('/', validData, async (req, res, next) => {
-    const {title, description} = req.body
-    const requiredData = await createTask(title.trim(), description.trim())
-
-    if (requiredData) res.status(200).json(requiredData)
-    else res.status(404).send('Server error! Task was not created!')
+    try {
+        const {title, description} = req.body
+        const requiredData = await createTask(title.trim(), description.trim())
+        res.status(200).json(requiredData)
+    } catch (err) {
+        if (err instanceof ErrorHandler) res.status(404).send('Page not found!')
+        else res.status(500).send('Server error!')
+    }
 })
 router.get('/:id', async (req, res) => {
-    const {id} = req.params
-    const requiredData = await getTask(id)
-    
-    if (requiredData) res.status(200).json(requiredData)
-    else res.status(404).send('Server error! The task with the required identifier is missing')
+    try {
+        const {id} = req.params
+        const requiredData = await getTask(id)
+        res.status(200).json(requiredData)
+    } catch (err) {
+        if (err instanceof ErrorHandler) res.status(404).send('Page not found')
+        else res.status(500).send('Server error!')
+    }
 })
 router.put('/:id', validData, async (req, res) => {
-    router.use((req, res, next) => validData(req, res, next))
-
-    const {id} = req.params
-    const {title, description} = req.body
-    const requiredData = await updateTask(id, title.trim(), description.trim())
-
-    if (requiredData) res.status(200).json(requiredData)
-    else res.status(404).send('The task with the required identifier is missing')
+    try {
+        const {id} = req.params
+        const {title, description} = req.body
+        const requiredData = await updateTask(id, title.trim(), description.trim())
+        res.status(200).json(requiredData)
+    } catch (err) {
+        if (err instanceof ErrorHandler) res.status(404).send('Page not found')
+        else res.status(500).send('Server error!')
+    }
 })
 router.delete('/:id', async (req, res) => {
-    const {id} = req.params
-    const requiredData = await deleteTask(id)
-
-    if (requiredData) res.status(200).json(requiredData)
-    else res.status(404).send('The task with the required identifier is missing')
+    try {
+        const {id} = req.params
+        const requiredData = await deleteTask(id)
+        res.status(200).json(requiredData)
+    } catch (err) {
+        if (err instanceof ErrorHandler) res.status(404).send('Page not found')
+        else res.status(500).send('Server error!')
+    }
 })
 router.get('/error', (req, res) => {
     throw new ErrorHandler(500, 'Internal server error')
