@@ -1,49 +1,17 @@
-const tasks = [
-    {
-        id: '0',
-        title: 'title_0',
-        description: 'description_0',
-    },
-    {
-        id: '1',
-        title: 'title_1',
-        description: 'description_1',
-    },
-]
+const {Tasks} = require('./repository')
 
-getAllTasks = () => tasks
+const tasks = new Tasks()
 
-getTask = (id) => tasks.find(el => el.id === id ? el : null)
 
-updateTask = (id, title, description) => {
-    return tasks.find(el => {
-        if (el.id === id) {
-            title.trim() ? el.title = title : null
-            description.trim() ? el.description = description : null
-            return el
-        } 
-    })
-}
+getAllTasks = async () => await tasks.getAllTasksDB()
 
-deleteTask = (id) => {
-    return tasks.find(el => {
-        if (el.id === id) {
-            tasks.splice(tasks.indexOf(el), 1)
-            return el
-        }
-    })
-}
+getTask = async (id) => await tasks.getTaskById(id).catch(err => console.log(err)) 
 
-createTask = (title, description) => {
-    const id = genID(tasks.length-1)
-    tasks.push({
-        id: id,
-        title: title,
-        description: description,
-    })
-    return getTask(id)
-}
+updateTask = async (id, title, description) => await tasks.updateTaskById(id, title, description)
 
-genID = (serverNum) => serverNum + "" + Math.floor(Math.random() * 100000)
+deleteTask = async (id) => await tasks.deleteTaskById(id)
+
+createTask = async (title, description) => await tasks.createNewTask(title, description)
+
 
 module.exports = {getAllTasks, getTask, updateTask, deleteTask, createTask}
