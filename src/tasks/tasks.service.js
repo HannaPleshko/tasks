@@ -1,49 +1,56 @@
-const tasks = [
-    {
-        id: '0',
-        title: 'title_0',
-        description: 'description_0',
-    },
-    {
-        id: '1',
-        title: 'title_1',
-        description: 'description_1',
-    },
-]
+const {createNewTask, getAllTasksDB, getTaskById, updateTaskById, deleteTaskById} = require('./repository')
+const {ErrorHandler} = require('../helpers/error')
 
-getAllTasks = () => tasks
-
-getTask = (id) => tasks.find(el => el.id === id ? el : null)
-
-updateTask = (id, title, description) => {
-    return tasks.find(el => {
-        if (el.id === id) {
-            title.trim() ? el.title = title : null
-            description.trim() ? el.description = description : null
-            return el
-        } 
-    })
+getAllTasks = async () => {
+    try {
+        const arrOfTasks = await getAllTasksDB()
+        if (!arrOfTasks) throw new ErrorHandler(500, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
 }
 
-deleteTask = (id) => {
-    return tasks.find(el => {
-        if (el.id === id) {
-            tasks.splice(tasks.indexOf(el), 1)
-            return el
-        }
-    })
+getTask = async (id) => {
+    try {
+        const arrOfTasks = await getTaskById(id)
+        console.log(!arrOfTasks);
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
 }
 
-createTask = (title, description) => {
-    const id = genID(tasks.length-1)
-    tasks.push({
-        id: id,
-        title: title,
-        description: description,
-    })
-    return getTask(id)
+updateTask = async (id, title, description) => {
+    try {
+        const arrOfTasks = await updateTaskById(id, title, description)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
 }
 
-genID = (serverNum) => serverNum + "" + Math.floor(Math.random() * 100000)
+deleteTask = async (id) => {
+    try {
+        const arrOfTasks = await deleteTaskById(id)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
+
+createTask = async (title, description) =>{
+    try {
+        const arrOfTasks = await createNewTask(title, description)
+        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
+        return arrOfTasks
+    } catch (err) {
+        throw err
+    }
+}
+
 
 module.exports = {getAllTasks, getTask, updateTask, deleteTask, createTask}
