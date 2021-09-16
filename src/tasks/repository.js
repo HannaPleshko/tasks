@@ -1,4 +1,3 @@
-const {ErrorHandler} = require('../helpers/error') 
 const {pool, client} = require('../database')
     
 createNewTask = async (title, description) => {
