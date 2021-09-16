@@ -2,54 +2,33 @@ const {createNewTask, getAllTasksDB, getTaskById, updateTaskById, deleteTaskById
 const {ErrorHandler} = require('../helpers/error')
 
 getAllTasks = async () => {
-    try {
-        const arrOfTasks = await getAllTasksDB()
-        if (!arrOfTasks) throw new ErrorHandler(500, 'Internal server error')
-        return arrOfTasks
-    } catch (err) {
-        throw err
-    }
+    const allTasks = await getAllTasksDB().catch(err => { throw err })
+    if (!allTasks) throw new ErrorHandler(404, 'Tasks not found!')
+    return allTasks
 }
 
 getTask = async (id) => {
-    try {
-        const arrOfTasks = await getTaskById(id)
-        console.log(!arrOfTasks);
-        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
-        return arrOfTasks
-    } catch (err) {
-        throw err
-    }
+    const task = await getTaskById(id).catch(err => { throw err })
+    if (!task) throw new ErrorHandler(404, 'Tasks not found!')
+    return task
 }
 
 updateTask = async (id, title, description) => {
-    try {
-        const arrOfTasks = await updateTaskById(id, title, description)
-        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
-        return arrOfTasks
-    } catch (err) {
-        throw err
-    }
+    const updTask = await updateTaskById(id, title, description).catch(err => { throw err })
+    if (!updTask) throw new ErrorHandler(404, 'Tasks not found!')
+    return updTask
 }
 
 deleteTask = async (id) => {
-    try {
-        const arrOfTasks = await deleteTaskById(id)
-        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
-        return arrOfTasks
-    } catch (err) {
-        throw err
-    }
+    const delTask = await deleteTaskById(id).catch(err => { throw err })
+    if (!delTask) throw new ErrorHandler(404, 'Page not found!')
+    return delTask
 }
 
 createTask = async (title, description) =>{
-    try {
-        const arrOfTasks = await createNewTask(title, description)
-        if (!arrOfTasks) throw new ErrorHandler(404, 'Internal server error')
-        return arrOfTasks
-    } catch (err) {
-        throw err
-    }
+    const newTask = await createNewTask(title, description).catch(err => { throw err })
+    if (!newTask) throw new ErrorHandler(404, 'Page not found!')
+    return newTask
 }
 
 
