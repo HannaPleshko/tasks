@@ -9,7 +9,7 @@ createNewTask = async (title, description) => {
         const arrOfVal = (await client.query(sql, [title, description])).rows
         await client.query('COMMIT')
         if (arrOfVal.length > 0) return arrOfVal 
-        else throw new ErrorHandler(500, 'Not found')
+        return null
     } catch (err) {
         console.log(`Exception in createNewTask: ${err.message}`)
         await client.query('COMMIT')
@@ -24,7 +24,7 @@ getAllTasksDB = async () => {
     try {
         const arrOfVal = (await client.query(`SELECT * FROM tasks`)).rows
         if (arrOfVal.length > 0) return arrOfVal
-        else throw new ErrorHandler(500, 'Not found')
+        return null
     } catch (err) {
         console.log(`Exception in getTaskById: ${err.message}`)
         return null
@@ -39,7 +39,7 @@ getTaskById = async (id) => {
         const sql = 'SELECT * FROM tasks WHERE id = $1'
         const arrOfVal = (await client.query(sql, [id])).rows
         if (arrOfVal.length > 0) return arrOfVal
-        else throw new ErrorHandler(500, 'Not found')
+        return null
     } catch (err) {
         console.log(`Exception in getTaskById: ${err.message}`)
         return null
@@ -56,7 +56,7 @@ updateTaskById = async (id, title, description) => {
         const arrOfVal = (await client.query(sql, [title, description, id])).rows
         await client.query('COMMIT')
         if (arrOfVal.length > 0) return arrOfVal 
-        else throw new ErrorHandler(500, 'Not found')
+        return null
     } catch (err) {
         console.log(`Exception in updateTaskById: ${err.message}`)
         await client.query('COMMIT')
@@ -74,7 +74,7 @@ deleteTaskById = async (id) => {
         const arrOfVal = (await client.query(sql, [id])).rows
         await client.query('COMMIT')
         if (arrOfVal.length > 0) return arrOfVal 
-        else throw new ErrorHandler(500, 'Not found')
+        return null
     } catch (err) {
         console.log(`Exception in updateTaskById: ${err.message}`)
         await client.query('COMMIT')
