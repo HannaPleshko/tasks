@@ -1,7 +1,7 @@
 import {handleError, ErrorHandler} from './helpers/error' 
-import express, { Request, Response } from 'express'
+import express, {Request, Response, NextFunction} from 'express'
 import {bodyParser} from 'body-parser'
-import {tasks} from './tasks/tasks.controller'
+import {router as tasks} from './tasks/tasks.controller'
 
 const app = express()
 
@@ -15,6 +15,6 @@ app.get('/error', (req: Request, res: Response) => {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/tasks', tasks)
-app.use((err, req, res, next) => handleError(err, res))
+app.use((err, req: Request, res: Response, next: NextFunction) => handleError(err, res))
 
 export {app}
