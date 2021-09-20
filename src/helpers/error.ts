@@ -1,12 +1,16 @@
+import {Request, Response, NextFunction} from 'express'
+
 class ErrorHandler extends Error {
-    constructor(statusCode, message) {
+    readonly statusCode: number
+    readonly message: string
+    constructor(statusCode: number, message: string) {
         super()
         this.statusCode = statusCode
         this.message = message
     }
 }
 
-const handleError = (err, res) => {
+const handleError = (err: iError, res: Response) => {
     const {statusCode, message} = err
     res.status(statusCode).json({
         status: "error",
@@ -15,7 +19,7 @@ const handleError = (err, res) => {
     })
 }
   
-module.exports = {
+export {
     ErrorHandler,
     handleError
 }
