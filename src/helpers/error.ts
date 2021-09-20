@@ -4,9 +4,9 @@ class ErrorHandler extends Error {
     readonly statusCode: number
     readonly message: string
     constructor(statusCode: number, message: string) {
-        super()
+        super(message)
+        Object.setPrototypeOf(this, ErrorHandler.prototype);
         this.statusCode = statusCode
-        this.message = message
     }
 }
 
