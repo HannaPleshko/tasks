@@ -1,6 +1,6 @@
-const {pool, client} = require('../database')
+import {pool, client} from '../database'
     
-createNewTask = async (title, description) => {
+const createNewTask = async (title: string, description: string): Promise<iTask| null>  => {
     const client = await pool.connect()
     try {
         await client.query('BEGIN')
@@ -10,7 +10,7 @@ createNewTask = async (title, description) => {
         if (arrOfVal.length > 0) return arrOfVal 
         return null
     } catch (err) {
-        console.log(`Exception in createNewTask: ${err.message}`)
+        console.log(`Exception in createNewTask: ${err}`)
         await client.query('COMMIT')
         return null
     } finally {
@@ -18,21 +18,21 @@ createNewTask = async (title, description) => {
     }
 }
 
-getAllTasksDB = async () => {
+const getAllTasksDB = async (): Promise<iTask[]| null> => {
     const client = await pool.connect()
     try {
         const arrOfVal = (await client.query(`SELECT * FROM tasks`)).rows
         if (arrOfVal.length > 0) return arrOfVal
         return null
     } catch (err) {
-        console.log(`Exception in getTaskById: ${err.message}`)
+        console.log(`Exception in getTaskById: ${err}`)
         return null
     } finally {
         client.release()
     }
 }
     
-getTaskById = async (id) => {
+const getTaskById = async (id: number): Promise<iTask| null> => {
     const client = await pool.connect()
     try {
         const sql = 'SELECT * FROM tasks WHERE id = $1'
@@ -40,14 +40,14 @@ getTaskById = async (id) => {
         if (arrOfVal.length > 0) return arrOfVal
         return null
     } catch (err) {
-        console.log(`Exception in getTaskById: ${err.message}`)
+        console.log(`Exception in getTaskById: ${err}`)
         return null
     } finally {
         client.release()
     }
 }
 
-updateTaskById = async (id, title, description) => {
+const updateTaskById = async (id: number, title: string, description: string): Promise<iTask| null> => {
     const client = await pool.connect()
     try {
         await client.query('BEGIN')
@@ -57,7 +57,7 @@ updateTaskById = async (id, title, description) => {
         if (arrOfVal.length > 0) return arrOfVal 
         return null
     } catch (err) {
-        console.log(`Exception in updateTaskById: ${err.message}`)
+        console.log(`Exception in updateTaskById: ${err}`)
         await client.query('COMMIT')
         return null
     } finally {
@@ -65,7 +65,7 @@ updateTaskById = async (id, title, description) => {
     }
 }
 
-deleteTaskById = async (id) => {
+const deleteTaskById = async (id: number): Promise<iTask| null> => {
     const client = await pool.connect()
     try {
         await client.query('BEGIN')
@@ -75,7 +75,7 @@ deleteTaskById = async (id) => {
         if (arrOfVal.length > 0) return arrOfVal 
         return null
     } catch (err) {
-        console.log(`Exception in updateTaskById: ${err.message}`)
+        console.log(`Exception in updateTaskById: ${err}`)
         await client.query('COMMIT')
         return null
     } finally {
@@ -83,4 +83,4 @@ deleteTaskById = async (id) => {
     }
 }
 
-module.exports = {createNewTask, getAllTasksDB, getTaskById, updateTaskById, deleteTaskById}
+export {createNewTask, getAllTasksDB, getTaskById, updateTaskById, deleteTaskById}
