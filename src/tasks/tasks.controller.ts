@@ -3,6 +3,7 @@ import {validData} from '../helpers/validation'
 import express, {Request, Response} from 'express'
 import {getAllTasks, getTask, updateTask, deleteTask, createTask} from './tasks.service'
 import {buildResponse} from '../helpers/response'
+import { ExceptionType } from '../exception/exception'
 
 const router = express.Router()
 
@@ -12,7 +13,7 @@ router.get('/', async (req: Request, res: Response) => {
         buildResponse(res, 200, allTasks)
     } catch (err) {
         if (err instanceof ErrorHandler) handleError(err, res)
-        else buildResponse(res, 500, 'Server error!')
+        else buildResponse(res, 500, ExceptionType.SERVER_ERROR)
     }
 })
 router.post('/', validData, async (req: Request, res: Response) => {
@@ -22,7 +23,7 @@ router.post('/', validData, async (req: Request, res: Response) => {
         buildResponse(res, 200, newTask)
     } catch (err) {
         if (err instanceof ErrorHandler) handleError(err, res)
-        else buildResponse(res, 500, 'Server error!')
+        else buildResponse(res, 500, ExceptionType.SERVER_ERROR)
     }
 })
 router.get('/:id', async (req: Request, res: Response) => {
@@ -32,7 +33,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         buildResponse(res, 200, task)
     } catch (err) {
         if (err instanceof ErrorHandler) handleError(err, res)
-        else buildResponse(res, 500, 'Server error!')
+        else buildResponse(res, 500, ExceptionType.SERVER_ERROR)
     }
 })
 router.put('/:id', validData, async (req: Request, res: Response) => {
@@ -43,7 +44,7 @@ router.put('/:id', validData, async (req: Request, res: Response) => {
         buildResponse(res, 200, updTask)
     } catch (err) {
         if (err instanceof ErrorHandler) handleError(err, res)
-        else buildResponse(res, 500, 'Server error!')
+        else buildResponse(res, 500, ExceptionType.SERVER_ERROR)
     }
 })
 router.delete('/:id', async (req: Request, res: Response) => {
@@ -53,7 +54,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
         buildResponse(res, 200, delTask)
     } catch (err) {
         if (err instanceof ErrorHandler) handleError(err, res)
-        else buildResponse(res, 500, 'Server error!')
+        else buildResponse(res, 500, ExceptionType.SERVER_ERROR)
     }
 })
 
