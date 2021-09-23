@@ -6,7 +6,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "types": ["node"],
+    "types": ["jest", "node"],
     "typeRoots": ["./types", "@types", "node_modules/@types"],
     "strictNullChecks": false,
     "esModuleInterop": true,
