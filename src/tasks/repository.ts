@@ -11,7 +11,7 @@ const createNewTask = async (title: string, description: string): Promise<iTask 
     return null;
   } catch (err) {
     console.log(`Exception in createNewTask: ${err}`);
-    await client.query('COMMIT');
+    await client.query('ROLLBACK');
     return null;
   } finally {
     client.release();
@@ -19,31 +19,25 @@ const createNewTask = async (title: string, description: string): Promise<iTask 
 };
 
 const getAllTasksDB = async (): Promise<iTask[] | null> => {
-  const client = await pool.connect();
   try {
-    const arrOfVal = (await client.query(`SELECT * FROM tasks`)).rows;
+    const arrOfVal = (await pool.query(`SELECT * FROM tasks`)).rows;
     if (arrOfVal.length > 0) return arrOfVal;
     return null;
   } catch (err) {
     console.log(`Exception in getTaskById: ${err}`);
     return null;
-  } finally {
-    client.release();
   }
 };
 
 const getTaskById = async (id: number): Promise<iTask | null> => {
-  const client = await pool.connect();
   try {
     const sql = 'SELECT * FROM tasks WHERE id = $1';
-    const arrOfVal = (await client.query(sql, [id])).rows;
+    const arrOfVal = (await pool.query(sql, [id])).rows;
     if (arrOfVal.length > 0) return arrOfVal;
     return null;
   } catch (err) {
     console.log(`Exception in getTaskById: ${err}`);
     return null;
-  } finally {
-    client.release();
   }
 };
 
@@ -58,7 +52,7 @@ const updateTaskById = async (id: number, title: string, description: string): P
     return null;
   } catch (err) {
     console.log(`Exception in updateTaskById: ${err}`);
-    await client.query('COMMIT');
+    await client.query('ROLLBACK');
     return null;
   } finally {
     client.release();
@@ -76,7 +70,7 @@ const deleteTaskById = async (id: number): Promise<iTask | null> => {
     return null;
   } catch (err) {
     console.log(`Exception in updateTaskById: ${err}`);
-    await client.query('COMMIT');
+    await client.query('ROLLBACK');
     return null;
   } finally {
     client.release();
