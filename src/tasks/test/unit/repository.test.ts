@@ -71,10 +71,11 @@ describe('', () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
       mockClient.query.mockResolvedValue({ rows: mockTasks, rowCount: 0 });
-      mockClient.query('BEGIN');
+      mockClient.query('COMMIT');
       mockClient.release();
       const expected = await createNewTask('1', '1');
       expect(mockClient.query).toBeCalledWith(`INSERT INTO tasks (title, description) VALUES($1, $2) RETURNING tasks.*`, ['1', '1']);
+      expect(mockClient.release).toBeCalled()
       expect(expected).toEqual(mockTasks);
     });
 
@@ -84,6 +85,7 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
+      expect(mockClient.release).toBeCalled()
       expect(expected).toBe(null);
     });
   });
@@ -96,7 +98,7 @@ describe('', () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
       mockClient.query.mockResolvedValue({ rows: mockTasks, rowCount: 0 });
-      mockClient.query('BEGIN');
+      mockClient.query('COMMIT');
       mockClient.release();
       const expected = await updateTaskById(1, '1', '1');
       expect(mockClient.query).toBeCalledWith(`UPDATE tasks SET title = $1, description = $2 WHERE id = $3 RETURNING tasks.*`, [
@@ -104,6 +106,7 @@ describe('', () => {
         '1',
         1,
       ]);
+      expect(mockClient.release).toBeCalled()
       expect(expected).toEqual(mockTasks);
     });
 
@@ -113,6 +116,7 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
+      expect(mockClient.release).toBeCalled()
       expect(expected).toBe(null);
     });
   });
@@ -125,9 +129,10 @@ describe('', () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
       mockClient.query.mockResolvedValue({ rows: mockTasks, rowCount: 0 });
-      mockClient.query('BEGIN');
+      mockClient.query('COMMIT');
       mockClient.release();
       const expected = await deleteTaskById(1);
+      expect(mockClient.release).toBeCalled()
       expect(mockClient.query).toBeCalledWith(`DELETE FROM tasks WHERE id = $1 RETURNING tasks.*`, [1]);
       expect(expected).toEqual(mockTasks);
     });
@@ -138,6 +143,7 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
+      expect(mockClient.release).toBeCalled()
       expect(expected).toBe(null);
     });
   });
