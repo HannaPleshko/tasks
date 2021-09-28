@@ -14,7 +14,7 @@ jest.mock('pg', () => {
   return { Pool: jest.fn(() => mPool) };
 });
 
-describe('', () => {
+describe('TestsForRepository', () => {
   let pool;
 
   beforeEach(() => {
@@ -64,9 +64,6 @@ describe('', () => {
   });
 
   describe('function createNewTask()', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
     it('should success', async () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
@@ -75,7 +72,7 @@ describe('', () => {
       mockClient.release();
       const expected = await createNewTask('1', '1');
       expect(mockClient.query).toBeCalledWith(`INSERT INTO tasks (title, description) VALUES($1, $2) RETURNING tasks.*`, ['1', '1']);
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(expected).toEqual(mockTasks);
     });
 
@@ -85,15 +82,12 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(expected).toBe(null);
     });
   });
 
   describe('function updateTaskById()', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
     it('should success', async () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
@@ -106,7 +100,7 @@ describe('', () => {
         '1',
         1,
       ]);
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(expected).toEqual(mockTasks);
     });
 
@@ -116,15 +110,12 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(expected).toBe(null);
     });
   });
 
   describe('function deleteTaskById()', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
     it('should success', async () => {
       const mockTasks = [{ id: 1, title: '1', description: '1' }];
       mockClient.query('BEGIN');
@@ -132,7 +123,7 @@ describe('', () => {
       mockClient.query('COMMIT');
       mockClient.release();
       const expected = await deleteTaskById(1);
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(mockClient.query).toBeCalledWith(`DELETE FROM tasks WHERE id = $1 RETURNING tasks.*`, [1]);
       expect(expected).toEqual(mockTasks);
     });
@@ -143,7 +134,7 @@ describe('', () => {
       mockClient.query('ROLLBACK');
       mockClient.release();
       let expected = await createNewTask('1', '1').catch();
-      expect(mockClient.release).toBeCalled()
+      expect(mockClient.release).toBeCalled();
       expect(expected).toBe(null);
     });
   });
