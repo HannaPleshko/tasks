@@ -15,16 +15,25 @@ describe('test error.ts', () => {
     it('should success', () => {
       const err: iError = {
         statusCode: 500,
-        message: 'Error'
-      }
+        message: 'Error',
+      };
       const response: Response = {
         json: jest.fn(),
-        status: jest.fn()
-      }
-      handleError(err, response)
+        status: jest.fn(),
+      };
+      const mJson = {
+        status: 'error',
+        statusCode: err.statusCode,
+        message: err.message,
+      };
+      handleError(err, response);
+      console.log(err.message);
+      
 
-      expect(response.json).toHaveBeenCalled()
-      expect(response.status).toHaveBeenCalled()
+      expect(response.json).toHaveBeenCalled();
+      expect(response.status).toHaveBeenCalled();
+      expect(response.json).toHaveBeenCalledWith(mJson);
+      expect(response.status).toHaveBeenCalledWith(err.statusCode);
     });
   });
 });
