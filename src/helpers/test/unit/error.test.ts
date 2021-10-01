@@ -28,7 +28,6 @@ describe('test error.ts', () => {
       };
       handleError(err, response);
       console.log(err.message);
-      
 
       expect(response.json).toHaveBeenCalled();
       expect(response.status).toHaveBeenCalled();
