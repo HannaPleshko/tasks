@@ -6,7 +6,6 @@ const createNewTask = async (title: string, description: string): Promise<iTask 
     await client.query('BEGIN');
     const sql = 'INSERT INTO tasks (title, description) VALUES($1, $2) RETURNING tasks.*';
     const arrOfVal = (await client.query(sql, [title, description])).rows;
-    console.log(arrOfVal); // [ { id: 1, title: '1', description: '1' } ]
     await client.query('COMMIT');
     if (arrOfVal.length > 0) return arrOfVal;
     return null;
