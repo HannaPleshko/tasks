@@ -1,5 +1,5 @@
-import { buildResponse } from '../../response';
 import { Response } from 'express';
+import { buildResponse } from '../../response';
 
 describe('function buildResponse()', () => {
   it('should success', () => {
@@ -8,6 +8,7 @@ describe('function buildResponse()', () => {
       json: jest.fn(),
     };
     const message = [{ id: 1, title: '1', description: '1' }];
+
     buildResponse(mResponse, 200, message);
 
     expect(mResponse.json).toHaveBeenCalled();

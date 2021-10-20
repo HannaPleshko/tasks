@@ -1,5 +1,5 @@
-import { ErrorHandler, handleError } from '../../error';
 import { Response } from 'express';
+import { ErrorHandler, handleError } from '../../error';
 
 describe('test error.ts', () => {
   describe('class ErrorHandler:', () => {
@@ -27,7 +27,6 @@ describe('test error.ts', () => {
         message: err.message,
       };
       handleError(err, response);
-      console.log(err.message);
 
       expect(response.json).toHaveBeenCalled();
       expect(response.status).toHaveBeenCalled();
