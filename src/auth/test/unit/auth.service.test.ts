@@ -19,8 +19,8 @@ describe('function createUser()', () => {
       password: '$2b$10$fUqLsaw.EqlLeqcpiBEvM.A/n8PzRvX1vCnvFQuZ8DZk6kXm8VHai',
     };
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockLogin));
-    createNewUserMock.mockImplementation(() => Promise.resolve(mockNewUser));
+    findLoginMock.mockResolvedValue(mockLogin);
+    createNewUserMock.mockResolvedValue(mockNewUser);
 
     const { login } = await createUser('newUser', '123456');
 
@@ -36,7 +36,7 @@ describe('function createUser()', () => {
       password: '$2b$10$fUqLsaw.EqlLeqcpiBEvM.A/n8PzRvX1vCnvFQuZ8DZk6kXm8VHai',
     };
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockUser));
+    findLoginMock.mockResolvedValue(mockUser);
 
     let exception;
     try {
@@ -54,8 +54,8 @@ describe('function createUser()', () => {
     const mockLogin = undefined;
     const mockNewUser = undefined;
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockLogin));
-    createNewUserMock.mockImplementation(() => Promise.resolve(mockNewUser));
+    findLoginMock.mockResolvedValue(mockLogin);
+    createNewUserMock.mockResolvedValue(mockNewUser);
 
     let exception;
     try {
@@ -85,7 +85,7 @@ describe('function findUser()', () => {
       user_id: 1,
     };
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockUser));
+    findLoginMock.mockResolvedValue(mockUser);
 
     const token = await findUser('newUser', '123456');
 
@@ -95,7 +95,7 @@ describe('function findUser()', () => {
   it('creating a user - fail. This user already exists', async () => {
     const mockUser = undefined;
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockUser));
+    findLoginMock.mockResolvedValue(mockUser);
 
     let exception;
     try {
@@ -117,7 +117,7 @@ describe('function findUser()', () => {
       user_id: 1,
     };
 
-    findLoginMock.mockImplementation(() => Promise.resolve(mockUser));
+    findLoginMock.mockResolvedValue(mockUser);
 
     let exception;
     try {

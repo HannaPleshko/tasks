@@ -3,13 +3,13 @@ import { ExceptionType } from '../exception/exception';
 import { ErrorHandler, handleError } from '../helpers/error';
 import { decodeToken } from '../helpers/jwt';
 import { buildResponse } from '../helpers/response';
-import { validDataTask, verifyToken } from '../helpers/validation';
+import { verifyToken, validData } from '../helpers/validation';
 import { getAllTasks, getTask, updateTask, deleteTask, createTask } from './tasks.service';
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjY5LCJpYXQiOjE2MzQxMjUzMTksImV4cCI6MTYzNDEyODkxOX0.gyFOYeLk5zCCCo_LOy7s8OJayEblo2pDQwtrSFSLUwY
 
 const router = express.Router();
 
-router.get('/', verifyToken, async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
     const user = decodeToken(req.headers.authorization.split(' ')[1]);
     const allTasks = await getAllTasks(user._id);
@@ -21,7 +21,7 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
   }
 });
 
-router.get('/:id', verifyToken, async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -35,7 +35,7 @@ router.get('/:id', verifyToken, async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', verifyToken, validDataTask, async (req: Request, res: Response) => {
+router.post('/', validData, async (req: Request, res: Response) => {
   try {
     const { title, description } = req.body;
 
@@ -49,7 +49,7 @@ router.post('/', verifyToken, validDataTask, async (req: Request, res: Response)
   }
 });
 
-router.put('/:id', verifyToken, validDataTask, async (req: Request, res: Response) => {
+router.put('/:id', validData, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
@@ -64,7 +64,7 @@ router.put('/:id', verifyToken, validDataTask, async (req: Request, res: Respons
   }
 });
 
-router.delete('/:id', verifyToken, async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 

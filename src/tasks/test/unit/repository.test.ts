@@ -40,7 +40,7 @@ describe('TestsForRepository', () => {
     });
 
     it('should failure', async () => {
-      pool.query.mockResolvedValue(new Error('Error'));
+      pool.query.mockRejectedValue(new Error('Error'));
 
       const expected = await getAllTasksDB(1).catch();
 
@@ -60,7 +60,7 @@ describe('TestsForRepository', () => {
     });
 
     it('should failure', async () => {
-      pool.query.mockResolvedValue(new Error('Error'));
+      pool.query.mockRejectedValue(new Error('Error'));
 
       const expected = await getTaskById(1, 1).catch();
 
