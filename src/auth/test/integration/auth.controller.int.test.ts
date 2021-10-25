@@ -68,9 +68,10 @@ describe(endPointUrl, () => {
 
   describe(`DELETE ${endPointUrl}delUser`, () => {
     it('should success', async () => {
+      process.env.NODE_ENV = 'DEV';
       const response = await request(app)
         .delete(endPointUrl + '/delUser')
-        .send({ hardDelete: { login: login } });
+        .send({ login: login });
 
       expect(response.statusCode).toBe(200);
       expect(response.body).toBeTruthy();

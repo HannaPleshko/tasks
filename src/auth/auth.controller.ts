@@ -3,12 +3,12 @@ import { ExceptionType, SuccessType } from '../exception/exception';
 import { ErrorHandler, handleError } from '../helpers/error';
 import { createCookie } from '../helpers/jwt';
 import { buildResponse } from '../helpers/response';
-import { validDataUser } from '../helpers/validation';
-import { createUser, findUser, hardDeleteUser, deleteUser } from './auth.service';
+import { validData } from '../helpers/validation';
+import { createUser, findUser, deleteUser } from './auth.service';
 
 const router = express.Router();
 
-router.post('/register', validDataUser, async (req: Request, res: Response) => {
+router.post('/register', validData, async (req: Request, res: Response) => {
   try {
     const { login, password } = req.body;
     await createUser(login, password);
@@ -20,7 +20,7 @@ router.post('/register', validDataUser, async (req: Request, res: Response) => {
   }
 });
 
-router.post('/login', validDataUser, async (req: Request, res: Response) => {
+router.post('/login', validData, async (req: Request, res: Response) => {
   try {
     const { login, password } = req.body;
     const tokenData = await findUser(login, password);
@@ -50,8 +50,7 @@ router.post('/logout', async (req: Request, res: Response) => {
 
 router.delete('/delUser', async (req: Request, res: Response) => {
   try {
-    req.body.hardDelete ? await hardDeleteUser(req.body.hardDelete.login) : null;
-    req.body.login ? await deleteUser(req.body.login) : null;
+    await deleteUser(req.body.login);
 
     buildResponse(res, 200, SuccessType.SUCCESS);
   } catch (err) {

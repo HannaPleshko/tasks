@@ -37,24 +37,20 @@ const findUser = async (login: string, password: string): Promise<iTokenData> =>
   return createToken(user);
 };
 
-const hardDeleteUser = async (login: string): Promise<iAuth> => {
-  const user = await hardDelUser(login).catch((err) => {
-    throw err;
-  });
-
-  if (!user) throw new ErrorHandler(404, ExceptionType.NOT_FOUND);
-
-  return user;
-};
-
 const deleteUser = async (login: string): Promise<iAuth> => {
-  const user = await delUser(login).catch((err) => {
-    throw err;
-  });
+  let user;
+  if (process.env.NODE_ENV === 'DEV') {
+    user = await hardDelUser(login).catch((err) => {
+      throw err;
+    });
+  } else {
+    user = await delUser(login).catch((err) => {
+      throw err;
+    });
+  }
 
   if (!user) throw new ErrorHandler(404, ExceptionType.NOT_FOUND);
-
   return user;
 };
 
-export { createUser, findUser, hardDeleteUser, deleteUser };
+export { createUser, findUser, deleteUser };

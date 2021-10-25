@@ -14,7 +14,7 @@ describe('function getAllTasks()', () => {
       { id: 2, title: '2', description: '2', user_id: 1 },
     ];
 
-    getAllTasksMock.mockImplementation(() => Promise.resolve(mockTasks));
+    getAllTasksMock.mockResolvedValue(mockTasks);
     const expetedTasks = await getAllTasks(1);
 
     expect(getAllTasksMock).toHaveBeenCalled();
@@ -24,7 +24,7 @@ describe('function getAllTasks()', () => {
   it('should return an error message after an error occur', async () => {
     const mockError = null;
 
-    getAllTasksMock.mockImplementation(() => Promise.reject(mockError));
+    getAllTasksMock.mockRejectedValue(mockError);
 
     await getAllTasks(1).catch((err) => expect(err).toBe(mockError));
   });
@@ -40,7 +40,7 @@ describe('function getTask()', () => {
   it('should return a task', async () => {
     const mockTasks = { id: 1, title: '1', description: '1' };
 
-    getTaskMock.mockImplementation(() => Promise.resolve(mockTasks));
+    getTaskMock.mockResolvedValue(mockTasks);
     const expetedTask = await getTask(1, 1);
 
     expect(getTaskMock).toHaveBeenCalled();
@@ -50,7 +50,7 @@ describe('function getTask()', () => {
   it('should return an error message after an error occur', async () => {
     const mockError = null;
 
-    getTaskMock.mockImplementation(() => Promise.reject(mockError));
+    getTaskMock.mockRejectedValue(mockError);
 
     await getTask(1, 1).catch((err) => expect(err).toBe(mockError));
   });
@@ -66,7 +66,7 @@ describe('function createTask()', () => {
   it('should return a new task', async () => {
     const newTask = { id: 1, title: '1', description: '1', user_id: 1 };
 
-    createNewTaskMock.mockImplementation(() => Promise.resolve(newTask));
+    createNewTaskMock.mockResolvedValue(newTask);
     const expetedNewTask = await createTask('1', '1', 1);
 
     expect(createNewTaskMock).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('function createTask()', () => {
   it('should return an error message after an error occur', async () => {
     const mockError = null;
 
-    createNewTaskMock.mockImplementation(() => Promise.reject(mockError));
+    createNewTaskMock.mockRejectedValue(mockError);
 
     await createTask('1', '1', 1).catch((err) => expect(err).toBe(mockError));
   });
@@ -92,7 +92,7 @@ describe('function updateTask()', () => {
   it('should return an update task', async () => {
     const updTask = { id: 1, title: '1', description: '1', user_id: 1 };
 
-    updateTaskMock.mockImplementation(() => Promise.resolve(updTask));
+    updateTaskMock.mockResolvedValue(updTask);
     const expetedNewTask = await updateTask(1, '1', '1', 1);
 
     expect(updateTaskMock).toHaveBeenCalled();
@@ -102,7 +102,7 @@ describe('function updateTask()', () => {
   it('should return an error message after an error occur', async () => {
     const mockError = null;
 
-    updateTaskMock.mockImplementation(() => Promise.reject(mockError));
+    updateTaskMock.mockRejectedValue(mockError);
 
     await updateTask(1, '1', '1', 1).catch((err) => expect(err).toBe(mockError));
   });
@@ -118,7 +118,7 @@ describe('function deleteTask()', () => {
   it('should return a delete Task', async () => {
     const delTask = { id: 1, title: '1', description: '1', user_id: 1 };
 
-    deleteTaskMock.mockImplementation(() => Promise.resolve(delTask));
+    deleteTaskMock.mockResolvedValue(delTask);
     const expetedDelTask = await deleteTask(1, 1);
 
     expect(deleteTaskMock).toHaveBeenCalled();
@@ -128,7 +128,7 @@ describe('function deleteTask()', () => {
   it('should return an error message after an error occur', async () => {
     const mockError = null;
 
-    deleteTaskMock.mockImplementation(() => Promise.reject(mockError));
+    deleteTaskMock.mockRejectedValue(mockError);
 
     await deleteTask(1, 1).catch((err) => expect(err).toBe(mockError));
   });

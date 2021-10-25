@@ -38,7 +38,7 @@ describe('TestsForRepository', () => {
     });
 
     it('should failure', async () => {
-      pool.query.mockResolvedValue(new Error('Error'));
+      pool.query.mockRejectedValue(new Error('Error'));
 
       const expected = await findLogin('1').catch();
 
