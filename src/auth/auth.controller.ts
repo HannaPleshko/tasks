@@ -26,8 +26,8 @@ router.post('/login', validData, async (req: Request, res: Response) => {
     const tokenData = await findUser(login, password);
 
     res.setHeader('authorization', [createCookie(tokenData)]);
-
-    buildResponse(res, 200, SuccessType.SUCCESS);
+    
+    buildResponse(res, 200, tokenData); // !!!!
   } catch (err) {
     if (err instanceof ErrorHandler) handleError(err, res);
     else buildResponse(res, 500, ExceptionType.SERVER_ERROR);
