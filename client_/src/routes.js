@@ -1,11 +1,11 @@
-import React from 'react'
-import {Switch, Route, Redirect } from 'react-router-dom'
-import { LoginPage, RegisterPage } from './pages/AuthPage'
-import { TaksPage } from './pages/TasksPage'
-import { WorkWIthPage } from './pages/WorkWIthPage'
-import { CreateTaskPage } from './pages/CreateTaskPage'
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { LoginPage, RegisterPage } from './pages/AuthPage';
+import { TaksPage } from './pages/TasksPage';
+import { WorkWIthPage } from './pages/WorkWIthPage';
+import { CreateTaskPage } from './pages/CreateTaskPage';
 
-export const useRoutes = isAuthenticated => {
+export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
@@ -20,7 +20,7 @@ export const useRoutes = isAuthenticated => {
         </Route>
         <Redirect to="/tasks" />
       </Switch>
-    )
+    );
   }
 
   return (
@@ -33,5 +33,5 @@ export const useRoutes = isAuthenticated => {
       </Route>
       <Redirect to="/auth/login" />
     </Switch>
-  )
-}
+  );
+};
