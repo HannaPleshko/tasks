@@ -26,7 +26,7 @@ router.post('/login', validData, async (req: Request, res: Response) => {
     const tokenData = await findUser(login, password);
 
     res.setHeader('authorization', [createCookie(tokenData)]);
-    
+
     buildResponse(res, 200, tokenData); // !!!!
   } catch (err) {
     if (err instanceof ErrorHandler) handleError(err, res);
@@ -58,4 +58,5 @@ router.delete('/delUser', async (req: Request, res: Response) => {
     else buildResponse(res, 500, ExceptionType.SERVER_ERROR);
   }
 });
+
 export { router };
